@@ -91,6 +91,7 @@ struct LegacyBogusControlFlow : public FunctionPass, public BogusControlFlow {
 struct BogusControlFlowPass : public PassInfoMixin<BogusControlFlowPass>,
                               public BogusControlFlow {
   BogusControlFlowPass();
+  static bool isRequired();
   PreservedAnalyses run(Function &F, FunctionAnalysisManager &AM);
 };
 

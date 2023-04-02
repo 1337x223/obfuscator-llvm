@@ -31,6 +31,8 @@ STATISTIC(Split, "Basicblock splitted");
 static cl::opt<int> SplitNum("split_num", cl::init(2),
                              cl::desc("Split <split_num> time each BB"));
 
+bool SplitBasicBlockPass::isRequired() { return true; }
+
 struct LegacySplitBasicBlock : public FunctionPass, public SplitBasicBlock {
   static char ID; // Pass identification, replacement for typeid
 

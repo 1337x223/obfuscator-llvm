@@ -95,8 +95,8 @@
 //===----------------------------------------------------------------------------------===//
 
 #include "BogusControlFlow.h"
-#include "utils/Utils.h"
 #include "utils/CryptoUtils.h"
+#include "utils/Utils.h"
 
 namespace llvm {
 
@@ -563,6 +563,8 @@ BasicBlock *BogusControlFlow::createAlteredBasicBlock(BasicBlock *basicBlock,
   return alteredBB;
 } // end of createAlteredBasicBlock()
 
+bool BogusControlFlowPass::isRequired() { return true; }
+
 /* doFinalization
  *
  * Overwrite FunctionPass method to apply the transformations to the whole
@@ -627,8 +629,10 @@ bool BogusControlFlow::doF(Module &M) {
   for (std::vector<Instruction *>::iterator i = toEdit.begin();
        i != toEdit.end(); ++i) {
     // if y < 10 || x*(x+1) % 2 == 0
-    opX = new LoadInst(x->getType()->getPointerElementType(), (Value *)x, "", (*i));
-    opY = new LoadInst(y->getType()->getPointerElementType(), (Value *)y, "", (*i));
+    opX = new LoadInst(x->getType()->getPointerElementType(), (Value *)x, "",
+                       (*i));
+    opY = new LoadInst(y->getType()->getPointerElementType(), (Value *)y, "",
+                       (*i));
 
     op = BinaryOperator::Create(
         Instruction::Sub, (Value *)opX,

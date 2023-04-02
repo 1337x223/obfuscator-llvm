@@ -33,6 +33,7 @@ namespace llvm {
 struct Substitution {
   Substitution();
   Substitution(bool flag);
+  static bool isRequired();
 
   void registerFuncs();
 

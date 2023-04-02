@@ -48,6 +48,8 @@ Substitution::Substitution(bool flag) {
   this->flag = flag;
 }
 
+bool Substitution::isRequired() { return true; }
+
 void Substitution::registerFuncs() {
   funcAdd[0] = &Substitution::addNeg;
   funcAdd[1] = &Substitution::addDoubleNeg;

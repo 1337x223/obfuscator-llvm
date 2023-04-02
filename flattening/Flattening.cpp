@@ -33,6 +33,8 @@ STATISTIC(Flattened, "Functions flattened");
 
 namespace llvm {
 
+bool FlatteningObfuscatorPass::isRequired() { return true; }
+
 bool Flattening::flatten(Function *f) {
   std::vector<BasicBlock *> origBB;
   BasicBlock *loopEntry;

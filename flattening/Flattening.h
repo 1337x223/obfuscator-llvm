@@ -38,6 +38,7 @@ struct FlatteningObfuscatorPass
     : public PassInfoMixin<FlatteningObfuscatorPass>,
       public Flattening {
   FlatteningObfuscatorPass();
+  static bool isRequired();
   PreservedAnalyses run(Function &F, FunctionAnalysisManager &);
 };
 } // namespace llvm
