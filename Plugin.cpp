@@ -52,7 +52,12 @@ void addPassesFromEnvVar(PassManager<T> &M, const StringRef &var) {
   }
 }
 
-extern "C" PassPluginLibraryInfo LLVM_ATTRIBUTE_WEAK llvmGetPassPluginInfo() {
+#ifdef _WIN32
+extern "C" __declspec(dllexport) PassPluginLibraryInfo LLVM_ATTRIBUTE_WEAK
+#else
+extern "C" PassPluginLibraryInfo LLVM_ATTRIBUTE_WEAK
+#endif
+    llvmGetPassPluginInfo() {
   /* Fixed seed for cryptoutils */
   StringRef seed = getEnvVar(EnvVarPrefix + "SEED");
   if (!seed.empty()) {

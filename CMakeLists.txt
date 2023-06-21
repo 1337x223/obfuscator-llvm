@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.13.5)
+cmake_minimum_required(VERSION 3.15)
 
 project(llvm-obfuscator)
 
@@ -31,14 +31,23 @@ if(NOT LLVM_ENABLE_RTTI)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-rtti")
 endif()
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wno-unused-parameter")
+if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
+	set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+else()
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wno-unused-parameter")
+endif()
 
 add_library(LLVMObfuscator SHARED Plugin.cpp)
 
 target_include_directories(LLVMObfuscator PRIVATE ${CMAKE_SOURCE_DIR})
 target_include_directories(LLVMObfuscator PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
-target_link_libraries(LLVMObfuscator LLVM)
+if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+    target_link_libraries(LLVMObfuscator LLVMCore LLVMSupport "${LLVM_LIBRARY_DIRS}\\opt.lib")
+else()
+    target_link_libraries(LLVMObfuscator LLVM)
+endif()
 
 option(BUILD_DUMMY "Build dummy plugin" OFF)
 if(BUILD_DUMMY)
