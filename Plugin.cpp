@@ -34,6 +34,7 @@ bool addPassWithName(FunctionPassManager &FPM, StringRef &passName) {
     return false;
   }
 
+  llvm::errs() << "Obfuscation " << passName << " enabled\n";
   return true;
 }
 
